@@ -15,7 +15,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_key")
 
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
+DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_NAME = os.getenv("DB_NAME")
 
 # DB 접속 (한글 설정 포함)
@@ -156,4 +156,4 @@ def submit():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

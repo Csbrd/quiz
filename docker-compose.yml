@@ -1,0 +1,31 @@
+services:
+  db:
+    image: mariadb:10.11  # MySQL보다 가벼운 MariaDB 추천
+    container_name: quiz_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "3306:3306"
+    volumes:
+      - quiz_data:/var/lib/mysql
+
+  web:
+    build: .
+    container_name: quiz_app
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - db
+
+volumes:
+  quiz_data:
