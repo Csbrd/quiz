@@ -17,8 +17,12 @@ Gemini API를 활용하여 CS 기초 및 네트워크 인프라 지식을 학습
 **API**: Google Gemini
 
 ## 시작하기
+### API 키 발급
+Google AI Studio에서 Gemini API 키 발급
 ### 저장소 복제
 `git clone https://github.com/Csbrd/quiz.git`
+### 환경변수 설정
+`.envexample` 파일을 `.env`로 변경 후 안에 있는 설정값 수정
 ### 라이브러리 설치
 `pip install -r requirements.txt`
 ### 실행하기
