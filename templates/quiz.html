@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>네트워크 인프라 퀴즈</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
+        .quiz-container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .question-block { margin-bottom: 30px; padding: 15px; border-left: 5px solid #3498db; background: #fafafa; }
+        .option-label { display: block; margin: 10px 0; cursor: pointer; padding: 12px; border-radius: 5px; border: 1px solid #ddd; background-color: white; transition: 0.2s; }
+        .option-label:hover { background-color: #f0f8ff; }
+        /* 체크된 항목 스타일 */
+        input[type="radio"]:checked + span { color: #3498db; font-weight: bold; }
+        .submit-btn { width: 100%; padding: 15px; background: #2ecc71; color: white; border: none; border-radius: 5px; font-size: 1.1em; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>네트워크 인프라 시험</h1>
+        <p><strong>{{ session['user_name'] }}</strong>님, 문제를 풀어보세요.</p>
+        <hr>
+        <form action="/submit" method="post" id="quizForm">
+            {% for q in quiz %}
+            <div class="question-block">
+                <p><strong>Q{{ loop.index }}. {{ q.question }}</strong></p>
+                {% set q_idx = loop.index0 %}
+                {% for opt in q.options %}
+                <label class="option-label">
+                    <input type="radio" 
+                           name="q_{{ q_idx }}" 
+                           id="q_{{ q_idx }}_opt_{{ loop.index0 }}"
+                           value="{{ opt }}" 
+                           class="quiz-radio">
+                    <span>{{ opt }}</span>
+                </label>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="submit-btn">최종 결과 확인</button>
+        </form>
+    </div>
+
+    <script>
+        // 클릭 상태를 저장할 맵 (문제 그룹별로 관리)
+        const lastClicked = new Map();
+
+        document.querySelectorAll('.quiz-radio').forEach(radio => {
+            radio.addEventListener('click', function() {
+                const name = this.name;
+                
+                // 1. 이미 체크된 버튼을 또 눌렀을 때 (취소)
+                if (lastClicked.get(name) === this) {
+                    this.checked = false;
+                    lastClicked.set(name, null);
+                } 
+                // 2. 새로운 버튼을 눌렀을 때 (해당 그룹 상태 업데이트)
+                else {
+                    lastClicked.set(name, this);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
