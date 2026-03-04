@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cs-db-configmap
+  namespace: cs-quiz-app
+data:
+  db-name: "quiz_db"
+  db-host: "quiz-db-service"
+  db-user: "root"

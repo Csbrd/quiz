@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-db
+  namespace: cs-quiz-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quiz-db
+  template:
+    metadata:
+      labels:
+        app: quiz-db
+    spec:
+      containers:
+      - image: mariadb:10.11
+        name: mariadb
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cs-db-secret
+              key: db-password
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: cs-db-configmap
+              key: db-name
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "125m"
+          limits:
+            memory: "256Mi"
+            cpu: "125m"
+        volumeMounts:
+        - name: db-volume
+          mountPath: /var/lib/mysql
+      volumes:
+        - name: db-volume
+          persistentVolumeClaim:
+            claimName: cs-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz-db-service
+  namespace: cs-quiz-app
+spec:
+  selector:
+    app: quiz-db  
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306

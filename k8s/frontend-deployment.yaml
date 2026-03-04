@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-web
+  namespace: cs-quiz-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quiz-web
+  template:
+    metadata:
+      labels:
+        app: quiz-web
+    spec:
+      containers:
+      - image: cscbrd/quiz-app:v1.0
+        name: flask-app
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: cs-db-configmap
+              key: db-host
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: cs-db-configmap
+              key: db-name
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: cs-db-configmap
+              key: db-user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cs-db-secret
+              key: db-password
+        - name: GEMINI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: cs-db-secret
+              key: gemini-api-key
+        - name: FLASK_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: cs-db-secret
+              key: flask-secret-key
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "10m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz-web-service
+  namespace: cs-quiz-app
+spec:
+  selector:
+    app: quiz-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
