@@ -33,7 +33,7 @@ Gemini API를 활용하여 CS 기초 및 네트워크 인프라 지식을 학습
 ### 실행하기
 `python3 app.py`
 ## k8s 배포
-Azure 클라우드에서 클러스터 구
+Azure 클라우드에서 클러스터 구현
 ## 시스템 아키텍
 <img width="1314" height="736" alt="image" src="https://github.com/user-attachments/assets/4f998a5e-18d3-46a6-b847-9d6200386123" />
 ## 폴더 구조 및 YAML 리소스
