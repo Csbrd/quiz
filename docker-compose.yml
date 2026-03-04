@@ -13,7 +13,7 @@ services:
 
   web:
     build: .
-    image: quiz-app:v1.0
+    image: cscbrd/quiz-app:v1.0
     container_name: quiz_app
     restart: always
     ports:
