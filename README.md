@@ -81,3 +81,10 @@ kubectl apply -f k8s/gateway.yaml
 kubectl apply -f k8s/http-route.yaml
 ```
 ## 트러블슈팅
+- DB 서버 파드 생성 시 메모리 부족(OOMKilled) 현상으로 인해 계속 재시작
+  - Azure 클라우드에서 오토 스케일링을 통해 메모리 문제 해결
+- ConfigMap, Secret 파일 설정 후 환경 변수 설정할 때 어떤 키-밸류 값을 어디에 사용해야 하는지
+- Gateway API 설정 시 Traefik 사용 -> Gateway 상태 Unknown
+  - 포트 번호 8000번, 이름 web 사용 해도 Unknown 상태로 지속되다가 갑자기 True
+- DB 서버 테이블 생성 미생성으로 인해 ProgrammingError 발생
+  - Deployment 재실행 후 해결(DB 서버보다 먼저 실행되서 발생한 오류)
