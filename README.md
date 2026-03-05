@@ -56,26 +56,26 @@ Azure 클라우드에서 클러스터 구현
 kubectl create namespace cs-quiz-app
 ```
 
-3. 설정 및 보안 적용
+2. 설정 및 보안 적용
 ```
 kubectl apply -f k8s/cs-db-secret.yaml
 kubectl apply -f k8s/cs-db-configmap.yaml
 ```
 
-4. 데이터베이스 및 스토리지 배포
+3. 데이터베이스 및 스토리지 배포
 ```
 kubectl apply -f k8s/db-pvc.yaml
 kubectl apply -f k8s/db-deployment.yaml
 kubectl apply -f k8s/db-service.yaml
 ```
 
-6. 웹 서버 배포
+4. 웹 서버 배포
 ```
 kubectl apply -f k8s/web-deployment.yaml
 kubectl apply -f k8s/web-service.yaml
 ```
 
-8. Gateway API 적용
+5. Gateway API 적용
 ```
 kubectl apply -f k8s/gateway.yaml
 kubectl apply -f k8s/http-route.yaml
